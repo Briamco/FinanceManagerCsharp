@@ -4,7 +4,5 @@ namespace Api.Data.Interfaces;
 
 public interface IMonthReportRepository
 {
-  Task<bool> ExportReport(MonthReport report, string fileName);
-
-  IEnumerable<string> GetExportedReportsNames();
+  byte[] SerializeReportInBytes(MonthReport report);
 }

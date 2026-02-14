@@ -1,36 +1,24 @@
+using System.ComponentModel;
+using System.Data.SqlTypes;
 using System.Text.Json;
 using Api.Data.Interfaces;
 using Api.Entities.Models;
+using Microsoft.VisualBasic;
 
 namespace Api.Data.Repositories;
 
 public class MonthReportRepository : IMonthReportRepository
 {
-
-  public async Task<bool> ExportReport(MonthReport report, string fileName)
+  private readonly JsonSerializerOptions _options;
+  public MonthReportRepository()
   {
-    try
+    _options = new JsonSerializerOptions
     {
-      if (!fileName.EndsWith(".json")) fileName += ".json";
-
-      string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Exports/{fileName}");
-
-      var options = new JsonSerializerOptions { WriteIndented = true };
-      string json = JsonSerializer.Serialize(report, options);
-
-      await File.WriteAllTextAsync(path, json);
-      return true;
-    }
-    catch
-    {
-      return false;
-    }
+      WriteIndented = true,
+      Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
   }
 
-  public IEnumerable<string> GetExportedReportsNames()
-  {
-    string basePath = AppDomain.CurrentDomain.BaseDirectory + "Exports";
-    return Directory.GetFiles(basePath, "report_*.json")
-                    .Select(Path.GetFileName)!;
-  }
+  public byte[] SerializeReportInBytes(MonthReport report) =>
+    JsonSerializer.SerializeToUtf8Bytes(report, _options);
 }
