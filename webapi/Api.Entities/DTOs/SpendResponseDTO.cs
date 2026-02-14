@@ -2,7 +2,7 @@ using Api.Entities.Interfaces;
 
 namespace Api.Entities.DTOs;
 
-public class SpendRespondeDTO : IEntity
+public class SpendResponseDTO : IEntity
 {
   public int Id { get; set; }
   public string? Description { get; set; }
