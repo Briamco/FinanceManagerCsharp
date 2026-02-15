@@ -9,5 +9,5 @@ public class SpendResponseDTO : IEntity
   public decimal Amount { get; set; }
   public DateTime Date { get; set; }
 
-  public string? CategoryId { get; set; }
+  public string? Category { get; set; }
 }
