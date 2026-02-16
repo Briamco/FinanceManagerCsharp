@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+body {
+  @apply bg-slate-50 p-4 md:p-8
+}
+
+.border, .border-b, .border-t, .border-l, .border-r {
+  @apply border-slate-200
+}

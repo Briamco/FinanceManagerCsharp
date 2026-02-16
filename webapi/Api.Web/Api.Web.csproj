@@ -16,4 +16,17 @@
     <ProjectReference Include="..\Api.Data\Api.Data.csproj" />
   </ItemGroup>
 
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('ClientApp\node_modules') ">
+  <Exec Command="npm install" WorkingDirectory="ClientApp" />
+</Target>
+
+<Target Name="PublishRunWebpack" BeforeTargets="Build">
+  <Exec Command="npm run build" WorkingDirectory="ClientApp" />
+
+  <ItemGroup>
+    <DistFiles Include="ClientApp\dist\**" />
+  </ItemGroup>
+  <Copy SourceFiles="@(DistFiles)" DestinationFolder="wwwroot\%(RecursiveDir)" />
+</Target>
+
 </Project>

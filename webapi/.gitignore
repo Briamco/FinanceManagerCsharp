@@ -1,2 +1,5 @@
 bin
 obj
+**/wwwroot/index.html
+**/wwwroot/assets/
+**/wwwroot/vite.svg
