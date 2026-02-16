@@ -2,21 +2,19 @@ import { useEffect, useState } from "react";
 import type { Spend } from "../types";
 import { apiService } from "../services/apiService";
 
-const SpendList = () => {
-  const [spends, setSpends] = useState<Spend[]>([]);
-  const [loading, setLoading] = useState(true);
+interface Props {
+  spends: Spend[]
+}
+
+const SpendList = ({ spends }: Props) => {
+  const [spendsFiltered, setSpendsFiltered] = useState<Spend[]>([]);
+
+  useEffect(() => {
+    setSpendsFiltered(spends);
+  }, [spends])
 
   const [filterInit, setFilterInit] = useState<string>('');
   const [filterLast, setFilterLast] = useState<string>('');
-
-  useEffect(() => {
-    apiService.getSpends()
-      .then(data => setSpends(data))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <div>Cargando gastos...</div>;
 
   async function handleFilterDate() {
     if (!filterInit || !filterLast) {
@@ -26,7 +24,7 @@ const SpendList = () => {
 
     try {
       const filteredSpends = await apiService.getSpendsByDate(filterInit, filterLast);
-      setSpends(filteredSpends);
+      setSpendsFiltered(filteredSpends);
     } catch (error) {
       console.error('Error al filtrar gastos por fecha:', error);
       alert('Ocurrió un error al filtrar los gastos. Por favor, intenta nuevamente.');
@@ -45,7 +43,7 @@ const SpendList = () => {
       </div>
 
       <ul id="list-spends" className="divide-y divide-slate-100">
-        {spends.map(s => (
+        {spendsFiltered.map(s => (
           <li key={s.id} className="py-3 flex justify-between items-center">
             <div>
               <p className="font-medium text-slate-800">{s.description}</p>
