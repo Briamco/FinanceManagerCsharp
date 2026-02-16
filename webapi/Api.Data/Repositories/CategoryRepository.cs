@@ -6,7 +6,7 @@ namespace Api.Data.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-  private readonly string _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Storage/categories.json");
+  private readonly string _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "categories.json");
   public async Task<IEnumerable<Category>> GetAll()
   {
     if (!File.Exists(_path))

@@ -6,7 +6,7 @@ namespace Api.Data.Repositories;
 
 public class SpendRepository : ISpendRepository
 {
-  private readonly string _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Storage/spends.json");
+  private readonly string _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "spends.json");
 
   public async Task<IEnumerable<Spend>> GetAll()
   {
