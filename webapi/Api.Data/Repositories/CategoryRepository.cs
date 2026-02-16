@@ -25,7 +25,7 @@ public class CategoryRepository : ICategoryRepository
     {
       var cats = (await GetAll()).ToList();
 
-      cat.Id = cats.Count > 0 ? cats.Max(c => cat.Id) + 1 : 1;
+      cat.Id = cats.Count > 0 ? cats.Max(c => c.Id) + 1 : 1;
 
       cats.Add(cat);
       await SaveList(cats);
