@@ -32,7 +32,6 @@ const Dashboard = ({ report }: Props) => {
         <h1 className="text-3xl font-extrabold text-slate-800">Finance<span className="text-blue-600">Manager</span></h1>
         <div className="flex gap-2">
           <input type="number" onChange={(e) => setYearValue(Number(e.target.value))} id="exp-year" placeholder="Año" className="w-20 p-2 border rounded text-sm" value={yearValue} />
-          {/* <input type="number" onChange={(e) => setMonthValue(Number(e.target.value))} id="exp-month" placeholder="Mes" className="w-16 p-2 border rounded text-sm" value={monthValue} /> */}
           <select className="w-fit p-2 border rounded text-sm" value={monthValue} onChange={(e) => setMonthValue(Number(e.target.value))}>
             <option value="1">Enero</option>
             <option value="2">Febrero</option>
@@ -51,12 +50,13 @@ const Dashboard = ({ report }: Props) => {
         </div>
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <article className="bg-blue-600 text-white p-6 rounded-xl shadow-lg">
-          <p className="opacity-80 text-sm">Gasto Total General</p>
-          <p className="text-3xl font-bold">${report?.total.toLocaleString()}</p>
+      <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <article className="bg-blue-600 text-white p-8 rounded-xl flex flex-col justify-center">
+          <p className="text-blue-100 uppercase text-xs font-bold tracking-widest">Total Gastado</p>
+          <h2 className="text-5xl font-extrabold">${report?.total.toLocaleString()}</h2>
         </article>
-        <article className="bg-white p-6 rounded-xl shadow-sm border col-span-2">
+
+        <article className="bg-white col-span-3 p-6 rounded-xl shadow-sm border">
           <h3 className="font-bold mb-2">Alertas de Presupuesto</h3>
           <div className="space-y-1">
             {

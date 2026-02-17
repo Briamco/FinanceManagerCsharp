@@ -4,6 +4,13 @@ export interface Category {
   monthBudget: number
 }
 
+export interface CategoryReport {
+  categoryName: string
+  total: number
+  budget: number
+  percent: number
+}
+
 export interface Spend {
   id: number
   description: string
@@ -15,5 +22,6 @@ export interface Spend {
 
 export interface GeneralReport {
   total: number
+  categoriesReport: CategoryReport[]
   warnings: string[]
 }
