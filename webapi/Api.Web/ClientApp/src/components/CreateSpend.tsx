@@ -2,11 +2,23 @@ import { useRef, useState } from "react"
 import { apiService } from "../services/apiService"
 import type { Category } from "../types"
 
+/**
+ * Props del componente CreateSpend.
+ */
 interface Props {
+  /** Lista de categorías disponibles para asignar al gasto */
   categories: Category[]
+  /** Callback que se ejecuta después de guardar un gasto exitosamente */
   onSaved: () => void
 }
 
+/**
+ * Componente para registrar nuevos gastos.
+ * Muestra un formulario con campos para descripción, monto, categoría y fecha.
+ * La fecha es opcional y se usará la fecha actual si no se especifica.
+ * 
+ * @param props - Props del componente
+ */
 const CreateSpend = ({ categories, onSaved }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -15,6 +27,11 @@ const CreateSpend = ({ categories, onSaved }: Props) => {
   const [categoryId, setCategoryId] = useState<number>(0)
   const [date, setDate] = useState<string>('')
 
+  /**
+   * Maneja el envío del formulario.
+   * Si no se especifica fecha, usa la fecha actual.
+   * Llama a la API para registrar el gasto y refresca los datos.
+   */
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dateValid = date ? date : new Date().toISOString().split('T')[0]

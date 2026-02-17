@@ -4,9 +4,19 @@ using Api.Entities.Models;
 
 namespace Api.Data.Repositories;
 
+/// <summary>
+/// Repositorio para gestionar categorías.
+/// Implementa <see cref="ICategoryRepository"/>.
+/// Utiliza almacenamiento en archivo JSON (categories.json).
+/// </summary>
 public class CategoryRepository : ICategoryRepository
 {
   private readonly string _path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "categories.json");
+
+  /// <summary>
+  /// Obtiene todas las categorías desde el archivo JSON.
+  /// </summary>
+  /// <returns>Colección de categorías.</returns>
   public async Task<IEnumerable<Category>> GetAll()
   {
     if (!File.Exists(_path))
@@ -16,9 +26,19 @@ public class CategoryRepository : ICategoryRepository
     return JsonSerializer.Deserialize<List<Category>>(json) ?? [];
   }
 
+  /// <summary>
+  /// Obtiene una categoría específica por su ID.
+  /// </summary>
+  /// <param name="id">Identificador de la categoría.</param>
+  /// <returns>La categoría encontrada o null.</returns>
   public async Task<Category> GetById(int id) =>
     (await GetAll()).FirstOrDefault(c => c.Id == id)!;
 
+  /// <summary>
+  /// Guarda una nueva categoría asignándole un ID autogenerado.
+  /// </summary>
+  /// <param name="cat">Categoría a guardar.</param>
+  /// <returns>True si se guardó exitosamente.</returns>
   public async Task<bool> Save(Category cat)
   {
     try
@@ -38,6 +58,11 @@ public class CategoryRepository : ICategoryRepository
     }
   }
 
+  /// <summary>
+  /// Edita una categoría existente.
+  /// </summary>
+  /// <param name="cat">Categoría con los datos actualizados.</param>
+  /// <returns>True si se actualizó exitosamente.</returns>
   public async Task<bool> Edit(Category cat)
   {
     try
@@ -58,6 +83,11 @@ public class CategoryRepository : ICategoryRepository
     }
   }
 
+  /// <summary>
+  /// Elimina una categoría por su ID.
+  /// </summary>
+  /// <param name="id">Identificador de la categoría a eliminar.</param>
+  /// <returns>True si se eliminó exitosamente.</returns>
   public async Task<bool> Delete(int id)
   {
     try
@@ -76,6 +106,10 @@ public class CategoryRepository : ICategoryRepository
     }
   }
 
+  /// <summary>
+  /// Guarda la lista completa de categorías en el archivo JSON.
+  /// </summary>
+  /// <param name="cats">Lista de categorías a guardar.</param>
   public async Task SaveList(List<Category> cats)
   {
     var options = new JsonSerializerOptions { WriteIndented = true };

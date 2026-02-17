@@ -3,20 +3,38 @@ import { useEffect, useState } from "react";
 import { apiService } from "../services/apiService";
 import type { GeneralReport } from "../types";
 
+/**
+ * Props del componente Dashboard.
+ */
 interface Props {
+  /** Reporte general con el total de gastos y advertencias */
   report: GeneralReport | null
 }
 
+/**
+ * Componente Dashboard.
+ * Muestra el encabezado de la aplicación con:
+ * - El total de gastos
+ * - Las alertas de presupuesto
+ * - Controles para exportar reportes mensuales en JSON
+ * 
+ * @param props - Props del componente
+ */
 const Dashboard = ({ report }: Props) => {
   const [yearValue, setYearValue] = useState<number>(0);
   const [monthValue, setMonthValue] = useState<number>(0);
 
+  // Inicializar con el mes y año actual
   useEffect(() => {
     const today = new Date();
     setYearValue(today.getFullYear());
     setMonthValue(today.getMonth() + 1);
   }, [])
 
+  /**
+   * Maneja la exportación del reporte mensual.
+   * Valida que se hayan seleccionado mes y año antes de exportar.
+   */
   const handleExport = () => {
     if (!monthValue || !yearValue) {
       alert('Por favor, ingresa un mes y año válidos para exportar.');
@@ -51,11 +69,13 @@ const Dashboard = ({ report }: Props) => {
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        {/* Card de total */}
         <article className="bg-blue-600 text-white p-8 rounded-xl flex flex-col justify-center">
           <p className="text-blue-100 uppercase text-xs font-bold tracking-widest">Total Gastado</p>
           <h2 className="text-5xl font-extrabold">${report?.total.toLocaleString()}</h2>
         </article>
 
+        {/* Card de alertas */}
         <article className="bg-white col-span-3 p-6 rounded-xl shadow-sm border">
           <h3 className="font-bold mb-2">Alertas de Presupuesto</h3>
           <div className="space-y-1">

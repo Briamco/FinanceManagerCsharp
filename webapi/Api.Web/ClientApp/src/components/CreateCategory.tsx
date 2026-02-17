@@ -1,16 +1,31 @@
 import { useRef, useState } from "react"
 import { apiService } from "../services/apiService"
 
+/**
+ * Props del componente CreateCategory.
+ */
 interface Props {
+  /** Callback que se ejecuta después de guardar una categoría exitosamente */
   onSaved: () => void
 }
 
+/**
+ * Componente para crear nuevas categorías.
+ * Muestra un formulario con campos para el nombre y presupuesto mensual.
+ * Valida que no existan categorías duplicadas a través de la API.
+ * 
+ * @param props - Props del componente
+ */
 const CreateCategory = ({ onSaved }: Props) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [name, setName] = useState<string>('')
   const [budget, setBudget] = useState<number>(0)
 
+  /**
+   * Maneja el envío del formulario.
+   * Llama a la API para crear la categoría y refresca los datos.
+   */
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log({ name, monthBudget: budget })
