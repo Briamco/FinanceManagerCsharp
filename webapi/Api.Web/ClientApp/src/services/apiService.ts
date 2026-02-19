@@ -51,7 +51,6 @@ export const apiService = {
   deleteCategory: async (id: number) => {
     const res = await fetch(`/api/Category/${id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
     })
     if (!res.ok) throw new Error(await res.text())
   },
@@ -73,6 +72,16 @@ export const apiService = {
    */
   getSpendsByDate: async (init: string, last: string): Promise<Spend[]> => {
     const res = await fetch(`/api/spends/search/date?init=${init}&last=${last}`)
+    return res.json()
+  },
+
+  /**
+   * 
+   * @param categoryId - ID de la categoria
+   * @returns Promise con el array de gastos filtrados
+   */
+  getSpendsByCategory: async (categoryId: number): Promise<Spend[]> => {
+    const res = await fetch(`/api/spends/search/category/${categoryId}`)
     return res.json()
   },
 

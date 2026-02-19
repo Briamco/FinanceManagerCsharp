@@ -23,27 +23,23 @@ const CategoryList = ({ categories, onSaved }: Props) => {
       alert('Presupuesto inválido. Por favor, ingresa un número.');
       return;
     }
-
-    try {
-      apiService.updateCategory(id, { name: newName, monthBudget: newBudget });
-      onSaved();
-    } catch (error) {
-      console.error('Error al actualizar la categoría:', error);
-      alert('Ocurrió un error al actualizar la categoría. Por favor, intenta nuevamente.');
-    }
+    apiService.updateCategory(id, { name: newName, monthBudget: newBudget })
+      .then(() => {
+        onSaved();
+        alert('Categoría actualizada con éxito');
+      })
+      .catch(err => alert('Error al actualizar categoría: ' + err.message));
 
   }
 
   const handleDelete = (id: number) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
-      try {
-        apiService.deleteCategory(id);
-        onSaved();
-      } catch (error) {
-        console.error('Error al eliminar la categoría:', error);
-        alert('Ocurrió un error al eliminar la categoría. Por favor, intenta nuevamente.');
-        return;
-      }
+      apiService.deleteCategory(id)
+        .then(() => {
+          onSaved();
+          alert('Categoría eliminada con éxito');
+        })
+        .catch(err => alert('Error al eliminar categoría: ' + err.message));
     }
   }
 

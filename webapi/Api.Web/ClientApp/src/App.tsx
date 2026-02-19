@@ -29,7 +29,7 @@ function App() {
 
         <section className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-sm">
-            <SpendList spends={spends} />
+            <SpendList spends={spends} categories={categories} />
           </div>
         </section>
 

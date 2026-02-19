@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Spend } from "../types";
+import type { Category, Spend } from "../types";
 import { apiService } from "../services/apiService";
 
 /**
@@ -8,6 +8,7 @@ import { apiService } from "../services/apiService";
 interface Props {
   /** Lista de gastos a mostrar */
   spends: Spend[]
+  categories: Category[]
 }
 
 /**
@@ -17,7 +18,7 @@ interface Props {
  * 
  * @param props - Props del componente
  */
-const SpendList = ({ spends }: Props) => {
+const SpendList = ({ spends, categories }: Props) => {
   const [spendsFiltered, setSpendsFiltered] = useState<Spend[]>([]);
 
   // Sincronizar la lista filtrada con los gastos recibidos
@@ -47,6 +48,21 @@ const SpendList = ({ spends }: Props) => {
     }
   }
 
+  async function handleFilterCategory(categoryId: number) {
+    if (!categoryId) {
+      setSpendsFiltered(spends);
+      return;
+    }
+
+    try {
+      const filteredSpends = await apiService.getSpendsByCategory(categoryId);
+      setSpendsFiltered(filteredSpends);
+    } catch (error) {
+      console.error('Error al filtrar gastos por categoría:', error);
+      alert('Ocurrió un error al filtrar los gastos. Por favor, intenta nuevamente.');
+    }
+  }
+
   return (
     <section className="bg-white p-6 rounded-xl shadow-sm border">
       <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
@@ -56,6 +72,14 @@ const SpendList = ({ spends }: Props) => {
           <input type="date" onChange={(e) => setFilterInit(e.target.value)} className="p-1 border rounded text-xs" />
           <input type="date" onChange={(e) => setFilterLast(e.target.value)} className="p-1 border rounded text-xs" />
           <button onClick={() => handleFilterDate()} className="bg-slate-100 px-2 py-1 rounded text-xs border">📅 Filtrar</button>
+        </div>
+        <div>
+          <select onChange={(e) => handleFilterCategory(Number(e.target.value))} id="spend-cat" className="w-full p-2 border rounded" required>
+            <option value="">Seleccione Categoría</option>
+            {categories.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
         </div>
       </div>
 
