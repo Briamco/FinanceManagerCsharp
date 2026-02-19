@@ -29,6 +29,34 @@ export const apiService = {
   },
 
   /**
+   * Actualizar una categoria
+   * @param id  - ID de la categoria
+   * @param cat - Datos de la categoria (sin el ID)
+   * @throws Error si la peticion falla
+   */
+  updateCategory: async (id: number, cat: Omit<Category, 'id'>): Promise<void> => {
+    const res = await fetch(`/api/Category/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cat)
+    })
+    if (!res.ok) throw new Error(await res.text());
+  },
+
+  /**
+   * 
+   * @param id - ID de la categoria
+   * @throws Error si la peticion falla
+   */
+  deleteCategory: async (id: number) => {
+    const res = await fetch(`/api/Category/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    if (!res.ok) throw new Error(await res.text())
+  },
+
+  /**
    * Obtiene todos los gastos.
    * @returns Promise con el array de gastos
    */
