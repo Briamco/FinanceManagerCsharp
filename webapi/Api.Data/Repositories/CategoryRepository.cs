@@ -92,8 +92,11 @@ public class CategoryRepository : ICategoryRepository
   {
     try
     {
-      Category cat = await GetById(id);
       var cats = (await GetAll()).ToList();
+
+      var cat = cats.FirstOrDefault(c => c.Id == id);
+
+      if (cat == null) return false;
 
       cats.Remove(cat);
       await SaveList(cats);
